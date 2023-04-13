@@ -28,8 +28,7 @@ if(formArray.length > 0) {
 // GET DOM ELEMENTS
 form = document.querySelector('#addForm')
 let empTable = document.querySelector('#empTable')
-let empCount = document.querySelector('#empCount')
-
+// let empCount = document.querySelector('#empCount')
 
 // BUILD THE EMPLOYEES TABLE WHEN THE PAGE LOADS
 
@@ -46,7 +45,9 @@ form.addEventListener('submit', (e) => {
     let empDept = document.querySelector('#department').value
 
     // ADD THE NEW EMPLOYEE TO A NEW ARRAY OBJECT
-    let empLine = empTable.tbody()
+    let empLine1 = empTable.tbody()
+    let empLine2 = empTable.tbody()
+
 
 
     // PUSH THE NEW ARRAY TO THE *EXISTING* EMPLOYEES ARRAY
@@ -57,26 +58,42 @@ form.addEventListener('submit', (e) => {
     formArray.push(empDept)
 
     // BUILD THE GRID
-    
-    
-
-
-    // RESET THE FORM
-
+    function addToTable() {
+        if ($('formArray').value !== '') {
+            form.push($('form').value)
+            localStorage.setItem('form', form.join('|'))
+            $('formArray').value = ''
+            displayEmpForm()
+        } else {
+            alert('Please enter a form.')
+        }
+    }
+        // RESET THE FORM
+    document.querySelector('#addForm').reset()
     // SET FOCUS BACK TO THE ID TEXT BOX
-
+    document.querySelector('#id').focus()
 });
 
 // DELETE EMPLOYEE
 empTable.addEventListener('click', (e) => {
     // CONFIRM THE DELETE
+    if(e.target.classList.contains('delete')) {
+        if(confirm('Are you sure you want to delete this employee')) {
 
         // GET THE SELECTED ROWINDEX FOR THE TR (PARENTNODE.PARENTNODE)
-
+        empTable.deleteRow(e.target.parentElement.parentElement.rowIndex)
         // REMOVE EMPLOYEE FROM ARRAY
 
         // BUILD THE GRID
-
+        function removeFromTable() {
+            form.pop($('form').value)
+            localStorage.setItem('form', form.join('|'))
+            $('formArray').value = ''
+            displayEmpForm()
+        }
+    }
+        
+    }
 });
 
 // BUILD THE EMPLOYEES GRID
