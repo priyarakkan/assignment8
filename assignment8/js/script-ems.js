@@ -2,6 +2,9 @@
 let storage
 let list
 let formArray
+function setStorage(formArray) {
+    sessionStorage.setItem('formArray', JSON.stringify(formArray))
+}
 function init() {
   
     if (localStorage.getItem('formArray')) {
