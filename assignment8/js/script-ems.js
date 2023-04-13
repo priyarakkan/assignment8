@@ -2,10 +2,16 @@
 let storage
 let list
 let formArray
-formArray = [
+function init() {
+  
+    if (localStorage.getItem('formArray')) {
+        formArray = JSON.parse(localStorage.getItem('formArray'))
+    } else {
+        formArray = [
     [12345678, 'priya', 1234, 'priya@gmail.com', 'Administrative']
     [24682468, 'rashmi', 2468, 'rashmi@gmail.com', 'Engineering']
 ]
+    }}
 
 // CHECK TO SEE IF STORAGE OBJECT EXISTS WHEN THE PAGE LOADS
 
@@ -28,7 +34,7 @@ if(formArray.length > 0) {
 // GET DOM ELEMENTS
 form = document.querySelector('#addForm')
 let empTable = document.querySelector('#empTable')
-// let empCount = document.querySelector('#empCount')
+let empCount = document.querySelector('#empCount')
 
 // BUILD THE EMPLOYEES TABLE WHEN THE PAGE LOADS
 
@@ -98,13 +104,12 @@ empTable.addEventListener('click', (e) => {
 
 // BUILD THE EMPLOYEES GRID
 function buildGrid() {
-
-}
-
-
+    
     // REMOVE THE EXISTING SET OF ROWS BY REMOVING THE ENTIRE TBODY SECTION
+    formArray.length = 0
 
     // REBUILD THE TBODY FROM SCRATCH
+    $('tbody')
 
     // LOOP THROUGH THE ARRAY OF EMPLOYEES
     // REBUILDING THE ROW STRUCTURE
@@ -115,3 +120,4 @@ function buildGrid() {
 
     // STORE THE ARRAY IN STORAGE
 
+}
