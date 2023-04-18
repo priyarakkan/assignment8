@@ -98,35 +98,44 @@ empTable.addEventListener('click', (e) => {
         // GET THE SELECTED ROWINDEX FOR THE TR (PARENTNODE.PARENTNODE)
         let rowIndex=e.target.parentElement.parentElement.rowIndex
         // REMOVE EMPLOYEE FROM ARRAY
-empTable.deleteRow(rowIndex)
+        empTable.deleteRow(rowIndex)
         // BUILD THE GRID
-        function removeFromTable() {
-            form.pop($('form').value)
-            localStorage.setItem('form', form.join('|'))
-            $('formArray').value = ''
-            displayEmpForm()
-        }
+       
     }
         
     }
 });
 
 // BUILD THE EMPLOYEES GRID
-function buildGrid() {
+function buildGrid(formArray) {
     
     // REMOVE THE EXISTING SET OF ROWS BY REMOVING THE ENTIRE TBODY SECTION
-    formArray.length = 0
+    empTable.lastElementChild.remove()
 
     // REBUILD THE TBODY FROM SCRATCH
-    $('tbody')
+    let tbody = document.createElement('tbody')
 
     // LOOP THROUGH THE ARRAY OF EMPLOYEES
+
     // REBUILDING THE ROW STRUCTURE
+    for (let employee of arrEmployees) {
+        tbody.innerHTML += 
+        `
+        <tr>
+            <td>${employee[0]}</td>
+            <td>${employee[1]}</td>
+            <td>${employee[2]}</td>
+            <td><a href="mailto:${employee[3]}">${employee[3]}</a></td>
+            <td>${employee[4]}</td>
+            <td><button class="btn btn-sm btn-danger delete">X</button></td>
+        </tr>
+        `
+    }
 
     // BIND THE TBODY TO THE EMPLOYEE TABLE
-
+    empTable.appendChild(tbody)
     // UPDATE EMPLOYEE COUNT
-
+    empCount.value = `(${arrEmployees.length})`
     // STORE THE ARRAY IN STORAGE
 
 }
