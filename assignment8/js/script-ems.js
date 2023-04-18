@@ -1,7 +1,13 @@
 // CREATE AN ARRAY OF EMPLOYEES
 let storage
 let list
-let formArray
+let formArray = [
+    [12345678, 'priya', 1234, 'priya@gmail.com', 'Administrative'],
+    [24682468, 'rashmi', 2468, 'rashmi@gmail.com', 'Engineering'],
+    [12345678, 'priya', 1234, 'priya@gmail.com', 'Administrative'],
+    [24682468, 'rashmi', 2468, 'rashmi@gmail.com', 'Engineering'],
+    [12345678, 'priya', 1234, 'priya@gmail.com', 'Administrative']
+]
 function setStorage(formArray) {
     sessionStorage.setItem('formArray', JSON.stringify(formArray))
 }
@@ -40,7 +46,7 @@ let empTable = document.querySelector('#empTable')
 let empCount = document.querySelector('#empCount')
 
 // BUILD THE EMPLOYEES TABLE WHEN THE PAGE LOADS
-
+buildGrid(formArray)
 
 // ADD EMPLOYEE
 form.addEventListener('submit', (e) => {
@@ -90,9 +96,9 @@ empTable.addEventListener('click', (e) => {
         if(confirm('Are you sure you want to delete this employee')) {
 
         // GET THE SELECTED ROWINDEX FOR THE TR (PARENTNODE.PARENTNODE)
-        empTable.deleteRow(e.target.parentElement.parentElement.rowIndex)
+        let rowIndex=e.target.parentElement.parentElement.rowIndex
         // REMOVE EMPLOYEE FROM ARRAY
-
+empTable.deleteRow(rowIndex)
         // BUILD THE GRID
         function removeFromTable() {
             form.pop($('form').value)
