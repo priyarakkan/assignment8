@@ -15,12 +15,7 @@ function init() {
   
     if (localStorage.getItem('formArray')) {
         formArray = JSON.parse(localStorage.getItem('formArray'))
-    } else {
-        formArray = [
-    [12345678, 'priya', 1234, 'priya@gmail.com', 'Administrative']
-    [24682468, 'rashmi', 2468, 'rashmi@gmail.com', 'Engineering']
-]
-    }}
+    } }
 
 // CHECK TO SEE IF STORAGE OBJECT EXISTS WHEN THE PAGE LOADS
 
@@ -118,7 +113,7 @@ function buildGrid(formArray) {
     // LOOP THROUGH THE ARRAY OF EMPLOYEES
 
     // REBUILDING THE ROW STRUCTURE
-    for (let employee of arrEmployees) {
+    for (let employee of formArray) {
         tbody.innerHTML += 
         `
         <tr>
@@ -135,7 +130,7 @@ function buildGrid(formArray) {
     // BIND THE TBODY TO THE EMPLOYEE TABLE
     empTable.appendChild(tbody)
     // UPDATE EMPLOYEE COUNT
-    empCount.value = `(${arrEmployees.length})`
+    empCount.value = `(${formArray.length})`
     // STORE THE ARRAY IN STORAGE
 
 }
