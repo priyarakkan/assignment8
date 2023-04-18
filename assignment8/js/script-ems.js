@@ -11,7 +11,7 @@ let formArray = [
 function setStorage(formArray) {
     sessionStorage.setItem('formArray', JSON.stringify(formArray))
 }
-function init() {
+function init(formArray) {
   
     if (localStorage.getItem('formArray')) {
         formArray = JSON.parse(localStorage.getItem('formArray'))
