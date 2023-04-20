@@ -1,6 +1,4 @@
 // CREATE AN ARRAY OF EMPLOYEES
-let storage
-let list
 let formArray = [
     [12345678, 'priya', 1234, 'priya@gmail.com', 'Administrative'],
     [24682468, 'rashmi', 2468, 'rashmi@gmail.com', 'Engineering'],
@@ -8,81 +6,44 @@ let formArray = [
     [24682468, 'rashmi', 2468, 'rashmi@gmail.com', 'Engineering'],
     [12345678, 'priya', 1234, 'priya@gmail.com', 'Administrative']
 ]
-function setStorage(formArray) {
-    sessionStorage.setItem('formArray', JSON.stringify(formArray))
-}
-function init(formArray) {
-  
-    if (localStorage.getItem('formArray')) {
-        formArray = JSON.parse(localStorage.getItem('formArray'))
-    } }
 
 // CHECK TO SEE IF STORAGE OBJECT EXISTS WHEN THE PAGE LOADS
 
-function displayEmpForm() {
-    if(formArray.length === 0) {
-        storage = localStorage.getItem('form') || ''
-        if (storage.length > 0) {
-            formArray = storage.split('|')
-        }
-    }
-
 // IF DOES, RETURN STORAGE OBJECT INTO ARRAY INSTEAD OF POPULATED ARRAY
-if(formArray.length > 0) {
-    formArray.sort()
-    list = formArray.join('\n')
-    $('empTable').value = list
-    console.log('')
+if (localStorage.getItem('employees') !== null) {
+    formArray = JSON.parse(localStorage.getItem('employees'))
 }
-}
+
 // GET DOM ELEMENTS
-form = document.querySelector('#addForm')
-let empTable = document.querySelector('#empTable')
-let empCount = document.querySelector('#empCount')
+let form = document.getElementById('addForm')
+let empTable = document.getElementById('empTable')
+let empCount = document.getElementById('empCount')
 
 // BUILD THE EMPLOYEES TABLE WHEN THE PAGE LOADS
-buildGrid(formArray)
+buildGrid()
 
 // ADD EMPLOYEE
 form.addEventListener('submit', (e) => {
     // PREVENT FORM SUBMISSION
     e.preventDefault()
     // GET THE VALUES FROM THE TEXT BOXES
-    let empID = document.querySelector('#id').value
-    let empName = document.querySelector('#name').value
-    let empExt = document.querySelector('#extension').value
-    let empEmail = document.querySelector('#email').value
-    let empDept = document.querySelector('#department').value
-
+    let empID = parseInt(document.getElementById('id').value)
+    let empName = document.getElementById('name').value
+    let empExt = parseInt(document.getElementById('extension').value)
+    let empEmail = document.getElementById('email').value
+    let empDept = document.getElementById('department').value
     // ADD THE NEW EMPLOYEE TO A NEW ARRAY OBJECT
-    let empLine1 = empTable.tbody()
-    let empLine2 = empTable.tbody()
-
-
-
+    let formNewArray = [empID, empName, empExt, empEmail, empDept]
     // PUSH THE NEW ARRAY TO THE *EXISTING* EMPLOYEES ARRAY
-    formArray.push(empID)
-    formArray.push(empName)
-    formArray.push(empExt)
-    formArray.push(empEmail)
-    formArray.push(empDept)
+   formArray.push(formNewArray)
 
     // BUILD THE GRID
-    function addToTable() {
-        if ($('formArray').value !== '') {
-            form.push($('form').value)
-            localStorage.setItem('form', form.join('|'))
-            $('formArray').value = ''
-            displayEmpForm()
-        } else {
-            alert('Please enter a form.')
-        }
-    }
-        // RESET THE FORM
-    document.querySelector('#addForm').reset()
+    buildGrid()
+    // RESET THE FORM
+   form.reset()
     // SET FOCUS BACK TO THE ID TEXT BOX
-    document.querySelector('#id').focus()
-});
+    form.id.focus()
+})
 
 // DELETE EMPLOYEE
 empTable.addEventListener('click', (e) => {
@@ -93,25 +54,22 @@ empTable.addEventListener('click', (e) => {
         // GET THE SELECTED ROWINDEX FOR THE TR (PARENTNODE.PARENTNODE)
         let rowIndex=e.target.parentElement.parentElement.rowIndex
         // REMOVE EMPLOYEE FROM ARRAY
-        empTable.deleteRow(rowIndex)
+        formArray.splice(rowIndex - 1, 1)
+        // empTable.deleteRow(rowIndex)
         // BUILD THE GRID
-       
+            buildGrid()
     }
         
     }
 });
 
 // BUILD THE EMPLOYEES GRID
-function buildGrid(formArray) {
-    
+function buildGrid() {    
     // REMOVE THE EXISTING SET OF ROWS BY REMOVING THE ENTIRE TBODY SECTION
     empTable.lastElementChild.remove()
-
     // REBUILD THE TBODY FROM SCRATCH
     let tbody = document.createElement('tbody')
-
     // LOOP THROUGH THE ARRAY OF EMPLOYEES
-
     // REBUILDING THE ROW STRUCTURE
     for (let employee of formArray) {
         tbody.innerHTML += 
@@ -122,7 +80,9 @@ function buildGrid(formArray) {
             <td>${employee[2]}</td>
             <td><a href="mailto:${employee[3]}">${employee[3]}</a></td>
             <td>${employee[4]}</td>
-            <td><button class="btn btn-sm btn-danger delete">X</button></td>
+            <td><button class="btn btn-sm btn-danger delete">
+            <i class="fas fa-trash"></i>
+            </button></td>
         </tr>
         `
     }
@@ -132,5 +92,6 @@ function buildGrid(formArray) {
     // UPDATE EMPLOYEE COUNT
     empCount.value = `(${formArray.length})`
     // STORE THE ARRAY IN STORAGE
+    localStorage.setItem('employees', JSON)
 
 }
